@@ -1,3 +1,6 @@
 __pycache__
 *.swp
 data
+build
+dist
+gwa_spotify_api.egg-info
