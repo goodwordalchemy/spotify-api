@@ -4,3 +4,4 @@ data
 build
 dist
 gwa_spotify_api.egg-info
+spotify-token.pickle

@@ -1,13 +1,14 @@
-from codecs import open
 from os import path
 from setuptools import setup, find_packages
+import codecs
 
 here = path.abspath(path.dirname(__file__))
 
-with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
+with codecs.open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
-print(find_packages(exclude=['data']))
+with open(path.join(here, 'spotify-token.pickle'), 'w') as f:
+    f.write('sample-spotify-token')
 
 setup(
     name='gwa_spotify_api',
@@ -25,7 +26,8 @@ setup(
         'Programming Language :: Python :: 3'
     ],
     keywords='spotify api wrapper',
-    packages=find_packages(exclude=['data']),
+    packages=find_packages(),
+    data_files=[('data', ['spotify-token.pickle'])],
     python_requires='>=3',
     install_requires=['rauth']
 )

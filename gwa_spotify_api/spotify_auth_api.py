@@ -4,8 +4,10 @@ import pickle
 
 from rauth import OAuth2Service
 
-from spotify_api import SpotifyAPI
+from gwa_spotify_api.spotify_api import SpotifyAPI
 
+
+TOKEN_PICKLE_FILENAME = 'spotify-token.pickle'
 
 class SpotifyAuthAPI(SpotifyAPI):
 
@@ -29,7 +31,7 @@ class SpotifyAuthAPI(SpotifyAPI):
 
     def assign_token(self):
         try:
-            self.token = pickle.load(open('data/spotify-token.pickle','rb'))
+            self.token = pickle.load(open(TOKEN_PICKLE_FILENAME,'rb'))
         except:
             self.get_token_flow()
 
@@ -74,7 +76,7 @@ class SpotifyAuthAPI(SpotifyAPI):
             method='POST',
             headers={'Authorization': 'Basic ' + self._get_authorization_string(client_id, client_secret)},
             decoder=json.loads)
-        pickle.dump(token, open('data/spotify-token.pickle','wb'))
+        pickle.dump(token, open(TOKEN_PICKLE_FILENAME,'wb'))
         self.token = token
 
 if __name__ == '__main__':

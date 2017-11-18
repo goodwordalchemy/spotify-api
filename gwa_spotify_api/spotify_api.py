@@ -1,6 +1,6 @@
 import requests, base64, datetime, types, time, json, pickle, os
 
-from exceptions import (
+from gwa_spotify_api.exceptions import (
     SpotifyTimeoutError, SpotifyAuthenticationError,
     SpotifyNotFoundError, SpotifyInvalidRequestError,
 )
@@ -63,7 +63,7 @@ class SpotifyAPI(object):
         client_id = self.config['SPOTIFY_CLIENT_ID']
         client_secret = self.config['SPOTIFY_CLIENT_SECRET']
 
-        auth_string = self._get_authorizization_string(client_id, client_secret)
+        auth_string = self._get_authorization_string(client_id, client_secret)
 
         token = requests.post(
             'https://accounts.spotify.com/api/token',
