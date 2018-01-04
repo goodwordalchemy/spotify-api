@@ -1,3 +1,4 @@
+import os
 import time
 
 
@@ -49,8 +50,11 @@ class SpotifyAuthenticationError(SpotifyException):
 
     def __init__(self, response):
         print("token timed out.  Getting new authentication token")
-        if 'data/spotify-token.pickle' in os.listdir('.'):
-            os.remove('data/spotify-token.pickle')
+
+        from gwa_spotify_api.spotify_auth_api import TOKEN_PICKLE_FILENAME
+
+        if TOKEN_PICKLE_FILENAME in os.listdir('.'):
+            os.remove(TOKEN_PICKLE_FILENAME )
         SpotifyException.__init__(self, response)
 
     def authenticate(self):

@@ -3,6 +3,7 @@ import requests, base64, datetime, types, time, json, pickle, os
 from gwa_spotify_api.exceptions import (
     SpotifyTimeoutError, SpotifyAuthenticationError,
     SpotifyNotFoundError, SpotifyInvalidRequestError,
+    SpotifyException,
 )
 
 MY_SPOTIFY_ID = os.environ.get('MY_SPOTIFY_ID')
@@ -37,7 +38,7 @@ class SpotifyAPI(object):
 
     Or you can pass a dictionary with those keys.
     """
-    def __init__(self, config=None, use_default=False):
+    def __init__(self, assign_token=True, config=None, use_default=False):
 
         self.request_epoch = time.time()
         self.time_between_requests = 1
@@ -50,7 +51,8 @@ class SpotifyAPI(object):
             self.config['SPOTIFY_CLIENT_ID'] = os.environ.get('SPOTIFY_CLIENT_ID')
             self.config['SPOTIFY_CLIENT_SECRET'] = os.environ.get('SPOTIFY_CLIENT_SECRET')
 
-        self.assign_token()
+        if assign_token:
+            self.assign_token()
 
     def _get_authorization_string(self, client_id, client_secret):
         encoded_auth_string = (client_id + ':' + client_secret).encode('ascii')

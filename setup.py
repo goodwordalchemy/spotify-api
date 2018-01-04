@@ -12,7 +12,7 @@ with open(path.join(here, 'spotify-token.pickle'), 'w') as f:
 
 setup(
     name='gwa_spotify_api',
-    version='0.0.2',
+    version='0.0.3',
     description='wrapper for spotify web api',
     long_description=long_description,
     url='https://github.com/goodwordalchemy/spotify-api',
