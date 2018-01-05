@@ -112,7 +112,7 @@ class SpotifyAuthAPI(SpotifyAPI):
 
         auth_code = input(message)
 
-        token = self.get_access_token(self, auth_code)
+        token = self.get_access_token(auth_code)
 
         pickle.dump(token, open(TOKEN_PICKLE_FILENAME,'wb'))
 
