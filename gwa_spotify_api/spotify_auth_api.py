@@ -86,7 +86,7 @@ class SpotifyAuthAPI(SpotifyAPI):
                 'redirect_uri':self.callback_url
             },
             method='POST',
-            headers={'Authorization': 'Basic ' + self._get_authorization_string(client_id, client_secret)},
+            headers={'Authorization': 'Basic ' + self._get_authorization_string(self.client_id, self.client_secret)},
             decoder=json.loads)
 
         self.token = token
@@ -94,8 +94,7 @@ class SpotifyAuthAPI(SpotifyAPI):
         return token
 
 
-    def get_token_flow(self):
-        '''use from terminal'''
+    def get_authorization_url_message(self):
         authorize_url = self.get_authorize_url()
 
         message = (
@@ -105,6 +104,12 @@ class SpotifyAuthAPI(SpotifyAPI):
         )
         message = message.format(authorize_url)
 
+        return message
+
+    def get_token_flow(self):
+        '''use from terminal'''
+        message = self.get_authorization_url_message()
+
         auth_code = input(message)
 
         token = self.get_access_token(self, auth_code)
@@ -113,6 +118,18 @@ class SpotifyAuthAPI(SpotifyAPI):
 
 if __name__ == '__main__':
     # test Auth API
-    api = SpotifyAuthAPI()
-    api.assign_token()
+    config = SPOTIFY_API_CONFIG = {
+	'SPOTIFY_CLIENT_ID': 'c00d7b8f071848d2a1f4f4c5be2a2228',
+	'SPOTIFY_CLIENT_SECRET': '5f6961a7666545279cec27dcc0273165',
+	'SPOTIFY_CALLBACK_URL': 'http://localhost:5000/callback/spotify',
+    }
+
+    api = SpotifyAuthAPI(assign_token=False, config=config)
+
+    auth_code = input(api.get_authorization_url_message())
+
+    token = api.get_access_token(auth_code)
+ 
+    api.assign_token(token)
+
     print(api.get('me'))
