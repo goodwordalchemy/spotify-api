@@ -59,11 +59,14 @@ class SpotifyAuthAPI(SpotifyAPI):
         if assign_token:
            self.assign_token()
 
-    def assign_token(self):
-        try:
-            self.token = pickle.load(open(TOKEN_PICKLE_FILENAME,'rb'))
-        except:
-            self.get_token_flow()
+    def assign_token(self, token=None):
+        if token is not None:
+            self.token = token
+        else:
+            try:
+                self.token = pickle.load(open(TOKEN_PICKLE_FILENAME,'rb'))
+            except:
+                self.get_token_flow()
 
     def get_authorize_url(self):
         params = dict(
@@ -80,7 +83,7 @@ class SpotifyAuthAPI(SpotifyAPI):
             data={
                 'code':auth_code,
                 'grant_type':'authorization_code',
-                'redirect_uri':callback_url
+                'redirect_uri':self.callback_url
             },
             method='POST',
             headers={'Authorization': 'Basic ' + self._get_authorization_string(client_id, client_secret)},
