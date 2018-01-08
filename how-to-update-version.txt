@@ -1,0 +1,6 @@
+How to update python package:
+1. Delete the build, dist, and <package name>.egg-info folders in your root directory.
+2. Change version number in your setup.py file.
+3. Create distribution again. e.g: python setup.py sdist bdist_wheel
+4. Upload distribution again. e.g: twine upload dist/*
+

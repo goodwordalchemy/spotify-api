@@ -13,6 +13,12 @@ SPOTIFY_AUTHORIZE_URL = 'https://accounts.spotify.com/authorize'
 SPOTIFY_ACCESS_TOKEN_URL = 'https://accounts.spotify.com/api/token'
 SPOTIFY_API_BASE_URL = 'https://accounts.spotify.com'
 
+def oauth_decode(data):
+    new_data = data.decode("utf-8", "strict")
+
+    return json.loads(new_data)
+
+
 class SpotifyAuthAPI(SpotifyAPI):
 
     def __init__(self, assign_token=True, config=None, scopes_list=None):
@@ -79,15 +85,17 @@ class SpotifyAuthAPI(SpotifyAPI):
         return url
 
     def get_access_token(self, auth_code):
+        import ipdb; ipdb.set_trace()
+
         token = self.service.get_access_token(
             data={
-                'code':auth_code,
-                'grant_type':'authorization_code',
-                'redirect_uri':self.callback_url
+                'code': auth_code,
+                'grant_type': 'authorization_code',
+                'redirect_uri': self.callback_url
             },
             method='POST',
             headers={'Authorization': 'Basic ' + self._get_authorization_string(self.client_id, self.client_secret)},
-            decoder=json.loads)
+            decoder=oauth_decode)
 
         self.token = token
 
