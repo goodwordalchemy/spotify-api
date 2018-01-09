@@ -85,8 +85,6 @@ class SpotifyAuthAPI(SpotifyAPI):
         return url
 
     def get_access_token(self, auth_code):
-        import ipdb; ipdb.set_trace()
-
         token = self.service.get_access_token(
             data={
                 'code': auth_code,
