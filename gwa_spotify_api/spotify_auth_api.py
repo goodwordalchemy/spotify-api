@@ -121,21 +121,3 @@ class SpotifyAuthAPI(SpotifyAPI):
         token = self.get_access_token(auth_code)
 
         pickle.dump(token, open(TOKEN_PICKLE_FILENAME,'wb'))
-
-if __name__ == '__main__':
-    # test Auth API
-    config = SPOTIFY_API_CONFIG = {
-	'SPOTIFY_CLIENT_ID': 'c00d7b8f071848d2a1f4f4c5be2a2228',
-	'SPOTIFY_CLIENT_SECRET': '5f6961a7666545279cec27dcc0273165',
-	'SPOTIFY_CALLBACK_URL': 'http://localhost:5000/callback/spotify',
-    }
-
-    api = SpotifyAuthAPI(assign_token=False, config=config)
-
-    auth_code = input(api.get_authorization_url_message())
-
-    token = api.get_access_token(auth_code)
- 
-    api.assign_token(token)
-
-    print(api.get('me'))
